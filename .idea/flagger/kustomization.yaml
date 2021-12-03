@@ -9,4 +9,4 @@ resources:
   - app-load-test.yaml
   - bg-deploy.yaml
 
-namespace:flagger
+namespace: flagger

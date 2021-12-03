@@ -24,7 +24,7 @@ spec:
     #- "helloworld-istio.example.com"
     - "helloworld-istio.petlove.com.br"
   gateways:
-    - public-gateway
+    - zabbix/public-gateway
   http:
     - route:
       - destination:

@@ -3,9 +3,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: helloworld-deployment-blue
-  #namespace: science
+  namespace: science
   labels:
-  app: helloworld-blue
+    app: helloworld-blue
 spec:
   replicas: 1
   selector:
@@ -15,6 +15,7 @@ spec:
     metadata:
       labels:
         version: helloworld-blue
+        sidecar.istio.io/inject: "true"
         app: helloworld-blue
     spec:
       containers:
@@ -27,7 +28,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: helloworld-deployment-green
-  #namespace: science
+  namespace: science
   labels:
     app: helloworld-green
 spec:
@@ -39,6 +40,7 @@ spec:
     metadata:
       labels:
         version: helloworld-green
+        sidecar.istio.io/inject: "true"
         app: helloworld-green
     spec:
       containers:
@@ -51,7 +53,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: helloworld-blue
-  #namespace: science
+  namespace: science
   labels:
     app: helloworld-blue
     service: helloworld-blue
@@ -59,15 +61,16 @@ spec:
   selector:
     app: helloworld-blue
   ports:
-    - port: 8080
-      name: http
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: helloworld-green
-  #namespace: science
+  namespace: science
   labels:
     app: helloworld-green
     service: helloworld-green
@@ -75,5 +78,6 @@ spec:
   selector:
     app: helloworld-green
   ports:
-    - port: 8080
-      name: http
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
