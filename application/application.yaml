@@ -5,18 +5,18 @@ metadata:
   name: helloworld-deployment-blue
   namespace: science
   labels:
-    app: helloworld-blue
+    app: helloworld
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: helloworld-blue
+      app: helloworld
   template:
     metadata:
       labels:
         version: helloworld-blue
         sidecar.istio.io/inject: "true"
-        app: helloworld-blue
+        app: helloworld
     spec:
       containers:
         - name: helloworld-blue
@@ -30,18 +30,18 @@ metadata:
   name: helloworld-deployment-green
   namespace: science
   labels:
-    app: helloworld-green
+    app: helloworld
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: helloworld-green
+      app: helloworld
   template:
     metadata:
       labels:
         version: helloworld-green
         sidecar.istio.io/inject: "true"
-        app: helloworld-green
+        app: helloworld
     spec:
       containers:
         - name: helloworld-green
@@ -52,32 +52,17 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: helloworld-blue
+  name: helloworld
   namespace: science
   labels:
-    app: helloworld-blue
-    service: helloworld-blue
+    app: helloworld
+    service: helloworld
 spec:
   selector:
-    app: helloworld-blue
+    app: helloworld
   ports:
     - protocol: TCP
       port: 80
       targetPort: 8080
 
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: helloworld-green
-  namespace: science
-  labels:
-    app: helloworld-green
-    service: helloworld-green
-spec:
-  selector:
-    app: helloworld-green
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8080
+

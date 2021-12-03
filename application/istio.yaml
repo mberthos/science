@@ -5,7 +5,7 @@ metadata:
   name: helloworld
   namespace: science
 spec:
-  host: helloworld-blue
+  host: helloworld
   subsets:
     - name: helloworld-blue
       labels:
@@ -28,11 +28,11 @@ spec:
   http:
     - route:
       - destination:
-           host: helloworld-blue
+           host: helloworld
            subset: helloworld-blue
         weight: 80
       - destination:
-           host: helloworld-green
+           host: helloworld
            subset: helloworld-green
         weight: 20
       corsPolicy:

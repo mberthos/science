@@ -3,9 +3,8 @@ kind: Kustomization
 
 resources:
   - ns.yaml
-  - ../istio/gateway.yaml
+  #- ../istio/gateway.yaml
   - app-flagger.yaml
-  - app-load-test.yaml
   - app-load-test.yaml
   - bg-deploy.yaml
 

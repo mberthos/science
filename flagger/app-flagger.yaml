@@ -1,10 +1,16 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: helloworld-flagger
+  namespace: flagger
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: helloworld
+  name: helloworld-flagger
   namespace: flagger
   labels:
-    app: helloworld
+    app: helloworld-flagger
 spec:
   minReadySeconds: 5
   revisionHistoryLimit: 5
@@ -15,20 +21,20 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: helloworld
+      app: helloworld-flagger
   template:
     metadata:
       labels:
-        app: helloworld
+        app: helloworld-flagger
     spec:
-      serviceAccountName: helloworld
+      serviceAccountName: helloworld-flagger
       containers:
-        - name: helloworld
+        - name: helloworld-flagger
           ###image types###
           #red, orange, yellow, green, blue, purple /
           #High error rate images, prefixed with the word bad (e.g. argoproj/rollouts-demo:bad-yellow)
           #High latency images, prefixed with the word slow (e.g. argoproj/rollouts-demo:slow-yellow)
-          image: argoproj/rollouts-demo:red
+          image: argoproj/rollouts-demo:orange
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
@@ -45,13 +51,13 @@ spec:
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: helloworld
+  name: helloworld-flagger
   namespace: flagger
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: helloworld
+    name: helloworld-flagger
   minReplicas: 2
   maxReplicas: 4
   metrics:
@@ -67,15 +73,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: helloworld
+  name: helloworld-flagger
   namespace: flagger
   labels:
-    app: helloworld
-    service: helloworld
+    app: helloworld-flagger
+    service: helloworld-flagger
 spec:
   ports:
     - name: http
       port: 8080
       targetPort: 8080
   selector:
-    app: helloworld
+    app: helloworld-flagger
