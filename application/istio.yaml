@@ -1,0 +1,70 @@
+
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: helloworld
+  namespace: science
+spec:
+  host: helloworld-blue
+  subsets:
+    - name: helloworld-blue
+      labels:
+        version: helloworld-blue
+    - name: helloworld-green
+      labels:
+        version: helloworld-green
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: vs-helloworld
+  namespace: science
+spec:
+  hosts:
+    #- "helloworld-istio.example.com"
+    - "helloworld-istio.petlove.com.br"
+  gateways:
+    - public-gateway
+  http:
+    - route:
+      - destination:
+           host: helloworld-blue
+           subset: helloworld-blue
+        weight: 80
+      - destination:
+           host: helloworld-green
+           subset: helloworld-green
+        weight: 20
+      corsPolicy:
+        allowOrigins:
+          - exact: "*"
+        allowMethods:
+          - GET
+          - POST
+          - PATCH
+          - PUT
+          - DELETE
+          - OPTIONS
+        allowCredentials: false
+        allowHeaders:
+          - "*"
+
+
+
+##routes
+    #- name: "helloworld2-ping"
+    #  match:
+    #    - uri:
+    #        prefix: "/ping"
+    #    - uri:
+    #        prefix: "/uuid"
+    #  route:
+    #    - destination:
+    #        host: service-helloworld2
+    #        subset: aguia2
+    #
+    #- name: "helloworld2-normal"
+    #  route:
+    #    - destination:
+    #        host: service-helloworld2
+    #        subset: gaviao2

@@ -1,0 +1,79 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloworld-deployment-blue
+  #namespace: science
+  labels:
+  app: helloworld-blue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helloworld-blue
+  template:
+    metadata:
+      labels:
+        version: helloworld-blue
+        app: helloworld-blue
+    spec:
+      containers:
+        - name: helloworld-blue
+          image: argoproj/rollouts-demo:blue
+          ports:
+            - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloworld-deployment-green
+  #namespace: science
+  labels:
+    app: helloworld-green
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helloworld-green
+  template:
+    metadata:
+      labels:
+        version: helloworld-green
+        app: helloworld-green
+    spec:
+      containers:
+        - name: helloworld-green
+          image: argoproj/rollouts-demo:green
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloworld-blue
+  #namespace: science
+  labels:
+    app: helloworld-blue
+    service: helloworld-blue
+spec:
+  selector:
+    app: helloworld-blue
+  ports:
+    - port: 8080
+      name: http
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloworld-green
+  #namespace: science
+  labels:
+    app: helloworld-green
+    service: helloworld-green
+spec:
+  selector:
+    app: helloworld-green
+  ports:
+    - port: 8080
+      name: http

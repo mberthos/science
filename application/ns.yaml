@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  #name: science
+  name: atlantis
+  labels:
+    #name: "science"
+    name: "atlantis"
