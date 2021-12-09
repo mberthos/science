@@ -3,7 +3,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: helloworld
-  namespace: science
+  #namespace: science
 spec:
   host: helloworld
   subsets:

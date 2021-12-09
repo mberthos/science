@@ -1,34 +1,8 @@
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: helloworld-deployment-blue
-  namespace: science
-  labels:
-    app: helloworld
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: helloworld
-  template:
-    metadata:
-      labels:
-        version: helloworld-blue
-        sidecar.istio.io/inject: "true"
-        app: helloworld
-    spec:
-      containers:
-        - name: helloworld-blue
-          image: argoproj/rollouts-demo:blue
-          ports:
-            - containerPort: 8080
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: helloworld-deployment-green
-  namespace: science
+  #namespace: science
   labels:
     app: helloworld
 spec:

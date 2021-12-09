@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloworld-deployment-blue
+  #namespace: science
+  labels:
+    app: helloworld
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helloworld
+  template:
+    metadata:
+      labels:
+        version: helloworld-blue
+        sidecar.istio.io/inject: "true"
+        app: helloworld
+    spec:
+      containers:
+        - name: helloworld-blue
+          image: argoproj/rollouts-demo:blue
+          ports:
+            - containerPort: 8080
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloworld-deployment-green
+  namespace: science
+  labels:
+    app: helloworld
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helloworld
+  template:
+    metadata:
+      labels:
+        version: helloworld-green
+        sidecar.istio.io/inject: "true"
+        app: helloworld
+    spec:
+      containers:
+        - name: helloworld-green
+          image: argoproj/rollouts-demo:green
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloworld
+  namespace: science
+  labels:
+    app: helloworld
+    service: helloworld
+spec:
+  selector:
+    app: helloworld
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+
+

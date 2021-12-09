@@ -3,8 +3,10 @@ kind: Kustomization
 
 resources:
   - ns.yaml
-  #- ../istio/gateway.yaml
-  - application.yaml
+  - ../istio/gateway.yaml
+  - application-blue.yaml
+  - application-green.yaml
+  - service.yaml
   - istio.yaml
 
 namespace: science
