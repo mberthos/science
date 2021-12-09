@@ -7,13 +7,18 @@ I created 2 types the first one just istio and changing the weigth directly on K
 #install Istio
 curl -L https://istio.io/downloadIstio | sh -
 cd istio-1.12.1
+
 istioctl manifest generate — set profile=demo > istio.yaml
+
 kubectl apply -f istio.yaml
 OR
+
 istioctl install --set profile=default -y --set meshConfig.accessLogFile=/dev/stdout
 
 #to preserve the original ip form cliente
+
 kubectl patch svc istio-ingressgateway -n istio-system -p '{"spec":{"externalTrafficPolicy":"Local"}}'
+
 #check logs envoy/ingress
 kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system; done
 
